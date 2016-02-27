@@ -1,4 +1,7 @@
-
+/**
+*This is programmed for the lighter tomohawks 
+*on the practice robot
+*/
 package org.usfirst.frc.team5429.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -232,7 +235,7 @@ public class Robot extends IterativeRobot {
     	else if(_xBoxController.getRawButton(6))
     	{
     		//reverse _tomohawk
-    		_tomohawk.set(-0.35);
+    		_tomohawk.set(-0.25);
     	}
     	else
     	{
