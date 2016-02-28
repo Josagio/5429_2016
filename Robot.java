@@ -2,6 +2,7 @@
 *This is programmed for the lighter tomohawks 
 *on the practice robot
 */
+
 package org.usfirst.frc.team5429.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -114,28 +115,33 @@ public class Robot extends IterativeRobot {
     		_frontLeftMotor.set(-.50);;
     		
     		// got to state 2 when counter = 100
-    		if (autoCounter >= 650)
+    		if (autoCounter >= 98.7)
     		{
+    			
     			autoState = 1;
     			autoCounter = 0;
+    			
     		}
     		break;
     		
     	case 1:
-    		_rearRightMotor.set(.35);;  // breaking for after rough terrain
-    		_rearLeftMotor.set(.35);;
-    		_frontRightMotor.set(.35);;
-    		_frontLeftMotor.set(.35);;
-    		_intake.set(1.0);
-    		if(autoCounter >= 325)
+    		_rearRightMotor.set(.30);;  // breaking for after rough terrain
+    		_rearLeftMotor.set(.30);;
+    		_frontRightMotor.set(.30);;
+    		_frontLeftMotor.set(.30);;
+    		if(autoCounter >= 25)
+    		{
     			autoState = 2;
     		    autoCounter = 0;
+    		}
+    			
+    		   
+    		break;
     	case 2:
     		_rearRightMotor.set(0);;
     		_rearLeftMotor.set(0);;
     		_frontRightMotor.set(0);;
     		_frontLeftMotor.set(0);;
-    		_intake.set(0);
     		break;
     		
     	}
@@ -235,7 +241,7 @@ public class Robot extends IterativeRobot {
     	else if(_xBoxController.getRawButton(6))
     	{
     		//reverse _tomohawk
-    		_tomohawk.set(-0.25);
+    		_tomohawk.set(-0.35);
     	}
     	else
     	{
