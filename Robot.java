@@ -1,7 +1,3 @@
-/**
-*This is programmed for the lighter tomohawks 
-*on the practice robot
-*/
 
 package org.usfirst.frc.team5429.robot;
 
@@ -31,6 +27,9 @@ public class Robot extends IterativeRobot {
 	final String defaultAuto = "Default";
     final String RoughTerrainAuto = "RoughTerrainAuto";
     final String RampartsAuto = "RampartsAuto";
+    final String MoatAuto = "MoatAuto";
+    final String WallAuto = "WallAuto";
+    
     
     String autoSelected;
     SendableChooser chooser;
@@ -66,6 +65,9 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", defaultAuto);
         chooser.addObject("Rough Terrain", RoughTerrainAuto);
         chooser.addObject("Ramparts", RampartsAuto);
+        chooser.addObject("Moat", MoatAuto);
+        chooser.addObject("WallAuto", WallAuto);
+        
         
         SmartDashboard.putData("Auto choices", chooser);
         //_leftSlave.changeControlMode(TalonControlMode.Follower);
@@ -115,7 +117,7 @@ public class Robot extends IterativeRobot {
     		_frontLeftMotor.set(-.50);;
     		
     		// got to state 2 when counter = 100
-    		if (autoCounter >= 98.7)
+    		if (autoCounter >= 103.5)
     		{
     			
     			autoState = 1;
@@ -158,13 +160,13 @@ public class Robot extends IterativeRobot {
     	case 0:
     		// drive toward ramparts
     		
-    		_rearRightMotor.set(-.55);;
-    		_rearLeftMotor.set(-.50);;
-    		_frontRightMotor.set(-.50);;
-    		_frontLeftMotor.set(-.50);;
+    		_rearRightMotor.set(-.72);;
+    		_rearLeftMotor.set(-.70);;
+    		_frontRightMotor.set(-.70);;
+    		_frontLeftMotor.set(-.70);;
     		
     		// got to state 2 when counter = 100
-    		if (autoCounter >= 680)
+    		if (autoCounter >= 98.7)
     		{
     			autoState = 1;
     			autoCounter = 0;
@@ -173,25 +175,124 @@ public class Robot extends IterativeRobot {
     		
     	case 1:
     	
-    		_rearRightMotor.set(-.65);;
-    		_rearLeftMotor.set(-.50);;
-    		_frontRightMotor.set(-.55);;
-    		_frontLeftMotor.set(-.50);;
+    		_rearRightMotor.set(.30);;
+    		_rearLeftMotor.set(.30);;
+    		_frontRightMotor.set(.30);;
+    		_frontLeftMotor.set(.30);;
     		
     		// got to state 2 when counter = 100
-    		if (autoCounter >= 1500)
+    		if (autoCounter >= 70)
     		{
     			autoState = 2;
     			autoCounter = 0;
     		}
     		break;
     	case 2:
+    		_rearRightMotor.set(.0);;
+    		_rearLeftMotor.set(.0);;
+    		_frontRightMotor.set(.00);;
+    		_frontLeftMotor.set(.0);;
+    		break;
+    		
+    		   }
+    	}
+    	
+    public void Run_Moat_Auto()
+    {
+    	switch(autoState)
+    	{
+    	case 0:
+    		// Rough Terrain code 
+    		
+    		_rearRightMotor.set(-.62);;
+    		_rearLeftMotor.set(-.60);;
+    		_frontRightMotor.set(-.60);;
+    		_frontLeftMotor.set(-.60);;
+    		
+    		// got to state 2 when counter = 100
+    		if (autoCounter >= 112.5)
+    		{
+    			
+    			autoState = 1;
+    			autoCounter = 0;
+    			
+    		}
+    		break;
+    		
+    	case 1:
+    		_rearRightMotor.set(.30);;  // breaking for after rough terrain
+    		_rearLeftMotor.set(.30);;
+    		_frontRightMotor.set(.30);;
+    		_frontLeftMotor.set(.30);;
+    		if(autoCounter >= 25)
+    		{
+    			autoState = 2;
+    		    autoCounter = 0;
+    		}
+    			
+    		   
+    		break;
+    	case 2:
     		_rearRightMotor.set(0);;
     		_rearLeftMotor.set(0);;
     		_frontRightMotor.set(0);;
     		_frontLeftMotor.set(0);;
+    		break;
+    		
     	}
-    }
+    		
+    
+   }
+    
+    public void Run_Wall_Auto()
+    {
+    	switch(autoState)
+    	{
+    	case 0:
+    		// Rough Terrain code 
+    		
+    		_rearRightMotor.set(-.62);;
+    		_rearLeftMotor.set(-.60);;
+    		_frontRightMotor.set(-.60);;
+    		_frontLeftMotor.set(-.60);;
+    		
+    		// got to state 2 when counter = 100
+    		if (autoCounter >= 110.5)
+    		{
+    			
+    			autoState = 1;
+    			autoCounter = 0;
+    			
+    		}
+    		break;
+    		
+    	case 1:
+    		_rearRightMotor.set(.30);;  // breaking for after rough terrain
+    		_rearLeftMotor.set(.30);;
+    		_frontRightMotor.set(.30);;
+    		_frontLeftMotor.set(.30);;
+    		if(autoCounter >= 25)
+    		{
+    			autoState = 2;
+    		    autoCounter = 0;
+    		}
+    			
+    		   
+    		break;
+    	case 2:
+    		_rearRightMotor.set(0);;
+    		_rearLeftMotor.set(0);;
+    		_frontRightMotor.set(0);;
+    		_frontLeftMotor.set(0);;
+    		break;
+    		
+    	}
+    		
+    
+   }
+    
+        	
+
     
     /**
      * This function is called periodically during autonomous
@@ -208,6 +309,13 @@ public class Robot extends IterativeRobot {
     		Run_Ramparts_Auto();
         	break;
         	
+     	case MoatAuto:
+     		Run_Moat_Auto();
+        	break;
+        	
+     	case WallAuto:
+     		Run_Wall_Auto();
+     		break;
        	}
     
     }
