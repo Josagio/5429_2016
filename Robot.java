@@ -1,4 +1,3 @@
-
 package org.usfirst.frc.team5429.robot;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -15,6 +14,7 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 
 /**
@@ -34,6 +34,9 @@ public class Robot extends IterativeRobot {
     final String WallAuto = "WallAuto";
     final String PortcullisAuto = "PortcullisAuto";
     final String LowbarAuto = "LowbarAuto";
+    final String RoughTerRShotAuto = "RoughTerrainRightShotAuto";
+    final String ShivalAuto = "ShivalAuto";
+    Ultrasonic ultra = new Ultrasonic(0,1);
     
     //final String resetEncoder = "resetEncoder";
     //final String liveEncoder = "liveEncoder" ;
@@ -79,6 +82,8 @@ public class Robot extends IterativeRobot {
         chooser.addObject("RockWall", WallAuto);
         chooser.addObject("Portcullis", PortcullisAuto);
         chooser.addObject("LowBar", LowbarAuto);
+        chooser.addObject("Rough_Terrian_Right_Shot", RoughTerRShotAuto);
+        chooser.addObject("ShivalAuto", ShivalAuto);
         
         SmartDashboard.putData("Auto choices", chooser);
         //_leftSlave.changeControlMode(TalonControlMode.Follower);
@@ -93,6 +98,12 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putData("Reset Encoder ", button);
     	*/
     	server.startAutomaticCapture();
+    	
+    	//Sensor automatic capturing
+    	ultra.setEnabled(true);
+    	ultra.setAutomaticMode(true);
+    	
+    	
     	/* the Talons on the left-side of my robot needs to drive reverse(red) to move robot forward.
     	 * Since _leftSlave just follows frontLeftMotor, no need to invert it anywhere. */
     	_drive.setInvertedMotor(MotorType.kFrontLeft, true);
@@ -167,6 +178,74 @@ public class Robot extends IterativeRobot {
     
     	
     }
+    
+    public void Run_Rough_Terrain_RightShot_Auto()
+    {
+    	switch(autoState)
+    	{
+    	case 0:
+    		// Rough Terrain code 
+    		_tomohawk.setEncPosition(1345);
+    		_rearRightMotor.set(-.72);;
+    		_rearLeftMotor.set(-.70);;
+    		_frontRightMotor.set(-.70);;
+    		_frontLeftMotor.set(-.70);;
+    		
+    		// got to state 2 when counter = 100
+    		if (autoCounter >= 122)
+    		{
+    			
+    			autoState = 1;
+    			autoCounter = 0;
+    			
+    		}
+    		break;
+    		
+    	case 1:
+    		_rearRightMotor.set(.30);;  // breaking for after rough terrain
+    		_rearLeftMotor.set(.30);;
+    		_frontRightMotor.set(.30);;
+    		_frontLeftMotor.set(.30);;
+    		if(autoCounter >= 25)
+    		{
+    			autoState = 2;
+    		    autoCounter = 0;
+    		}
+    			
+    		   
+    		break;
+    		
+    	case 2:
+
+    		_rearRightMotor.set(-.42);;
+    		_rearLeftMotor.set(0);;
+    		_frontRightMotor.set(-.40);;
+    		_frontLeftMotor.set(0);;
+    		if(autoCounter >= 65)
+    		{
+    			autoState = 3;
+    			autoCounter = 0;
+    		}
+    	case 3:
+    		_rearRightMotor.set(0);;
+    		_rearLeftMotor.set(0);;
+    		_frontRightMotor.set(0);;
+    		_frontLeftMotor.set(0);;
+    		if(autoCounter >= 10)
+    		{
+    			autoState = 3;
+    			autoCounter = 0;
+    		}
+    		
+    		break;
+    	
+    	}
+    		
+    
+    
+    	
+    }
+
 
     public void Run_Lowbar_auto()
     {
@@ -236,7 +315,7 @@ public class Robot extends IterativeRobot {
     		_frontLeftMotor.set(-.70);;
     		
     		// got to state 2 when counter = 100
-    		if (autoCounter >= 98.7)
+    		if (autoCounter >= 78.987)
     		{
     			autoState = 1;
     			autoCounter = 0;
@@ -274,13 +353,13 @@ public class Robot extends IterativeRobot {
     	case 0:
     		// Rough Terrain code 
     		_tomohawk.setEncPosition(1345);
-    		_rearRightMotor.set(-.72);;
-    		_rearLeftMotor.set(-.70);;
-    		_frontRightMotor.set(-.70);;
-    		_frontLeftMotor.set(-.70);;
+    		_rearRightMotor.set(-.82);;
+    		_rearLeftMotor.set(-.80);;
+    		_frontRightMotor.set(-.80);;
+    		_frontLeftMotor.set(-.80);;
     		
     		// got to state 2 when counter = 100
-    		if (autoCounter >= 98.7)
+    		if (autoCounter >= 105.429)
     		{
     			
     			autoState = 1;
@@ -327,7 +406,7 @@ public class Robot extends IterativeRobot {
     		_frontLeftMotor.set(-.70);;
     		
     		// got to state 2 when counter = 100
-    		if (autoCounter >= 125.5)
+    		if (autoCounter >= 79.87)
     		{
     			
     			autoState = 1;
@@ -426,6 +505,88 @@ public class Robot extends IterativeRobot {
     
     	
     }
+    
+    public void Run_Shival_Auto(){
+    	switch(autoState)
+    	{
+    	case 0: 
+    		_tomohawk.setEncPosition(1345);
+    		_rearRightMotor.set(-.52);
+    		_rearLeftMotor.set(-.50);
+    		_frontRightMotor.set(-.50);
+    		_frontLeftMotor.set(-.50);
+    		if(autoCounter >= 35)
+    		{
+    			_rearRightMotor.set(0);
+        		_rearLeftMotor.set(0);
+        		_frontRightMotor.set(0);
+        		_frontLeftMotor.set(0);
+    			autoState = 1;
+    			autoCounter = 0;
+    		}
+    		break;
+    	case 1:
+    		//tomohawks going down
+    		_tomohawk.set(-.50);
+    		if(_tomohawk.getEncPosition() <= 560)
+    		{
+    	    _tomohawk.set(0);
+    		}
+    		if(autoCounter >= 35)
+    		{
+    			autoState = 2;
+    			autoCounter = 0;
+    		}
+    		break;
+    	case 2:
+    		//backward a little
+    		_rearRightMotor.set(.32);
+    		_rearLeftMotor.set(.30);
+    		_frontRightMotor.set(.30);
+    		_frontLeftMotor.set(.30);
+    		if(autoCounter >= 10)
+    		{
+    			_rearRightMotor.set(0);
+        		_rearLeftMotor.set(0);
+        		_frontRightMotor.set(0);
+        		_frontLeftMotor.set(0);
+    			autoState = 3;
+    			autoCounter = 0;
+    		}
+    		break;
+    	case 3:
+    		//forward past shival
+    		_rearRightMotor.set(-.52);
+    		_rearLeftMotor.set(-.50);
+    		_frontRightMotor.set(-.50);
+    		_frontLeftMotor.set(-.50);
+    		if(autoCounter >= 105)
+    		{
+    			autoState = 4;
+    			autoCounter = 0;
+    		}
+    	break;
+    	case 4:
+    		//breaking
+    		_rearRightMotor.set(.30);
+    		_rearLeftMotor.set(.30);
+    		_frontRightMotor.set(.30);
+    		_frontLeftMotor.set(.30);
+    		if(autoCounter >= 30)
+    		{
+    			autoState = 5;
+    			autoCounter = 0;
+    		}
+    		break;
+    	case 5:
+    		_rearRightMotor.set(0);
+    		_rearLeftMotor.set(0);
+    		_frontRightMotor.set(0);
+    		_frontLeftMotor.set(0);
+    		break;
+    	}
+    }
+    
  
     
         	
@@ -438,6 +599,7 @@ public class Robot extends IterativeRobot {
     	
     	autoCounter++;
     	SmartDashboard.putNumber("tomohawkCount", _tomohawk.getEncPosition());
+    	SmartDashboard.putNumber("Sensor Range:", ultra.getRangeInches());
        	switch(autoSelected) {
        	case RoughTerrainAuto:
     		Run_Rough_Terrain_Auto();
@@ -462,6 +624,14 @@ public class Robot extends IterativeRobot {
      	case LowbarAuto:
      		Run_Lowbar_auto();
      		break;
+     		
+     	case RoughTerRShotAuto:
+     		Run_Rough_Terrain_RightShot_Auto();
+     		break;
+     	
+     	case ShivalAuto:
+     		Run_Shival_Auto();
+     		break;
        	}
     
     }
@@ -475,6 +645,7 @@ public class Robot extends IterativeRobot {
     	_drive.tankDrive(left, -right);//(forward, turn);
     	//autoSelectedButton = (String) button.getSmartDashboardType();
     	SmartDashboard.putNumber("tomohawkCount", _tomohawk.getEncPosition());
+    	SmartDashboard.putNumber("Sensor Range:", ultra.getRangeInches());
         
     	if(_xBoxController.getRawAxis(2) == 1)
     	{
@@ -498,15 +669,15 @@ public class Robot extends IterativeRobot {
     	 * This Method is used to control 
     	 * Mid-Evils Tomohawks
     	 */
-    	if(_xBoxController.getRawButton(5) && _tomohawk.getEncPosition() <= 750){
+    	if(_xBoxController.getRawButton(5) && _tomohawk.getEncPosition() <= 650){
     		//upward _tomohawk
-    		_tomohawk.set(0.55);
+    		_tomohawk.set(0.65);
     		
     	}
     	else if(_xBoxController.getRawButton(6) && _tomohawk.getEncPosition() >= 700)
     	{
     		//downward _tomohawk
-    		_tomohawk.set(-0.40);
+    		_tomohawk.set(-0.50);
     	}
     	else
     	{
